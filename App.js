@@ -1,18 +1,27 @@
 import React from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+class LogoTitle extends React.Component {
+  render() {
+    return (
+      <Text style={{color: "white", fontSize: 20}}>Fortress Home</Text>
+    );
+  }
+}
 
 class HomeScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Fortress Home',
-    headerStyle: {
-      backgroundColor: '#3575D3',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
+    title: "Fortress Home",
+    headerRight: (
+      <Button
+        onPress={() => alert('This will be a "Settings" Page')}
+        title="Settings"
+        color="#fff"
+      />
+    ),
   };
 
   render() {
@@ -52,14 +61,6 @@ class DetailsScreen extends React.Component {
         <Text>{JSON.stringify(itemId)}!</Text>
         <Text>{JSON.stringify(otherParam)}</Text>
         <Button
-          title="Go to Details... again"
-          onPress={() =>
-            this.props.navigation.push('Details', {
-              username: Math.floor(Math.random() * 100),
-              otherParam: "Welcome!",
-            })}
-        />
-        <Button
           title="Go to Home"
           onPress={() => this.props.navigation.navigate('Home')}
         />
@@ -72,19 +73,69 @@ class DetailsScreen extends React.Component {
   }
 }
 
-const RootStack = createStackNavigator(
+class SettingsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {/* other code from before here */}
+        <Button
+          title="Go to Details"
+          onPress={() => this.props.navigation.navigate('Details')}
+        />
+      </View>
+    );
+  }
+}
+
+// Stack Navigator Creation (Headers, Titles, Nav Stacks)
+const HomeStack = createStackNavigator({
+  Home: HomeScreen,
+  Details: DetailsScreen,
+});
+
+const DetailsStack = createStackNavigator({
+  Home: HomeScreen,
+  Settings: SettingsScreen,
+});
+
+
+
+// TabStack - Bottom Navigation 
+
+const TabStack = createBottomTabNavigator(
   {
     Home: HomeScreen,
-    Details: DetailsScreen,
+    Details: DetailsStack,
   },
   {
-    initialRouteName: 'Home',
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'Home') {
+          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Details') {
+          iconName = `ios-options${focused ? '' : '-outline'}`;
+        }
+
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Ionicons name={iconName} size={25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'white',
+      inactiveTintColor: 'white',
+      style: {
+        backgroundColor: "#3575D3",
+      }
+    },
   }
 );
 
 export default class App extends React.Component {
   render() {
-    return <RootStack />;
+    return <TabStack />;
   }
 }
 
