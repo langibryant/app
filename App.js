@@ -1,18 +1,18 @@
+// Comments by Connor :)
+// Imports
+
 import React from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+
+
+
+// Homescreen
 
 class HomeScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Fortress Home',
-    headerStyle: {
-      backgroundColor: '#3575D3',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
   };
 
   render() {
@@ -33,6 +33,9 @@ class HomeScreen extends React.Component {
     );
   }
 }
+
+
+// Details Screen
 
 class DetailsScreen extends React.Component {
 
@@ -72,6 +75,8 @@ class DetailsScreen extends React.Component {
   }
 }
 
+// Define Navigation Parameters, Screens, Styles.
+
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -79,14 +84,26 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+    headerStyle: {
+      backgroundColor: '#3575D3',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
   }
 );
+
+// Export App - Including all of the different screens defined in Rootstack
 
 export default class App extends React.Component {
   render() {
     return <RootStack />;
   }
 }
+
+
+// Stylesheets - Kinda Like CSS
 
 const styles = StyleSheet.create({
 
