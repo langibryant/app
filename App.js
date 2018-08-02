@@ -1,3 +1,6 @@
+// Comments by Connor :)
+// Imports
+
 import React from 'react';
 import { Button, View, Text, StyleSheet } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
@@ -10,6 +13,10 @@ class LogoTitle extends React.Component {
     );
   }
 }
+
+
+
+// Homescreen
 
 class HomeScreen extends React.Component {
 
@@ -43,6 +50,9 @@ class HomeScreen extends React.Component {
   }
 }
 
+
+// Details Screen
+
 class DetailsScreen extends React.Component {
 
   static navigationOptions = {
@@ -73,7 +83,14 @@ class DetailsScreen extends React.Component {
   }
 }
 
+
+// Settings Screen
 class SettingsScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Settings',
+  };
+
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -90,22 +107,23 @@ class SettingsScreen extends React.Component {
 // Stack Navigator Creation (Headers, Titles, Nav Stacks)
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Details: DetailsScreen,
 });
 
 const DetailsStack = createStackNavigator({
-  Home: HomeScreen,
-  Settings: SettingsScreen,
+  Details: DetailsScreen,
 });
 
-
+const SettingsStack = createStackNavigator({
+  Setings: SettingsScreen,
+});
 
 // TabStack - Bottom Navigation 
 
 const TabStack = createBottomTabNavigator(
   {
-    Home: HomeScreen,
+    Home: HomeStack,
     Details: DetailsStack,
+    Settings: SettingsStack,
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -116,6 +134,8 @@ const TabStack = createBottomTabNavigator(
           iconName = `ios-information-circle${focused ? '' : '-outline'}`;
         } else if (routeName === 'Details') {
           iconName = `ios-options${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Settings'){
+          iconName = `ios-speedometer${focused ? '' : '-outline'}`;
         }
 
         // You can return any component that you like here! We usually use an
@@ -133,11 +153,16 @@ const TabStack = createBottomTabNavigator(
   }
 );
 
+// Export App - Including all of the different screens defined in Rootstack
+
 export default class App extends React.Component {
   render() {
     return <TabStack />;
   }
 }
+
+
+// Stylesheets - Kinda Like CSS
 
 const styles = StyleSheet.create({
 
